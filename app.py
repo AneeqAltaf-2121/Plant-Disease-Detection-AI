@@ -1,0 +1,1 @@
+print("Plant Disease Detection AI")
