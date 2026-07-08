@@ -5,6 +5,7 @@ from pathlib import Path
 from torch.utils.data import DataLoader
 from torchvision import datasets, transforms
 
+
 DATA_DIR = Path(__file__).resolve().parent / "data" / "PlantVillage"
 TRAIN_DIR = DATA_DIR / "train"
 VAL_DIR = DATA_DIR / "val"
@@ -39,6 +40,11 @@ val_transform = transforms.Compose(
 def get_dataloaders(batch_size: int = BATCH_SIZE, num_workers: int = NUM_WORKERS):
     train_dataset = datasets.ImageFolder(TRAIN_DIR, transform=train_transform)
     val_dataset = datasets.ImageFolder(VAL_DIR, transform=val_transform)
+
+    
+
+
+
 
     train_loader = DataLoader(
         train_dataset,

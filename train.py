@@ -9,7 +9,7 @@ import torch.optim as optim
 from dataset import get_dataloaders
 from model import create_model
 
-NUM_EPOCHS = 10
+NUM_EPOCHS = 10 
 LEARNING_RATE = 1e-3
 MODELS_DIR = Path(__file__).resolve().parent / "models"
 BEST_MODEL_PATH = MODELS_DIR / "best_model.pth"
