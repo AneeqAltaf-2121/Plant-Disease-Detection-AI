@@ -1,5 +1,6 @@
 """Training and evaluation loop for the plant disease classifier."""
 
+import os
 from pathlib import Path
 
 import torch
@@ -9,12 +10,17 @@ import torch.optim as optim
 from dataset import get_dataloaders
 from model import create_model
 
-NUM_EPOCHS = 10 
-LEARNING_RATE = 1e-3
+NUM_EPOCHS = 15
+LEARNING_RATE = 1e-4
+EARLY_STOPPING_PATIENCE = 3
 MODELS_DIR = Path(__file__).resolve().parent / "models"
 BEST_MODEL_PATH = MODELS_DIR / "best_model.pth"
 
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+
+# Cap CPU thread usage so training doesn't crowd out the rest of the machine.
+if device.type == "cpu":
+    torch.set_num_threads(max(1, (os.cpu_count() or 4) // 2))
 
 
 
@@ -58,6 +64,8 @@ def train():
 
     MODELS_DIR.mkdir(parents=True, exist_ok=True)
     best_val_accuracy = 0.0
+    best_val_loss = float("inf")
+    epochs_without_improvement = 0
 
     for epoch in range(1, NUM_EPOCHS + 1):
         train_loss, train_accuracy = run_epoch(model, train_loader, criterion, optimizer)
@@ -80,6 +88,18 @@ def train():
                 BEST_MODEL_PATH,
             )
             print(f"  Saved new best model (val_acc={best_val_accuracy:.4f})")
+
+        if val_loss < best_val_loss:
+            best_val_loss = val_loss
+            epochs_without_improvement = 0
+        else:
+            epochs_without_improvement += 1
+            if epochs_without_improvement >= EARLY_STOPPING_PATIENCE:
+                print(
+                    f"\nNo val_loss improvement for {EARLY_STOPPING_PATIENCE} epochs. "
+                    "Stopping early."
+                )
+                break
 
     print(f"\nTraining complete. Best val accuracy: {best_val_accuracy:.4f}")
 
