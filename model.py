@@ -11,6 +11,9 @@ def create_model(num_classes: int, freeze_features: bool = True) -> nn.Module:
         for param in model.parameters():
             param.requires_grad = False
 
+        for param in model.layer4.parameters():
+            param.requires_grad = True
+
     model.fc = nn.Linear(model.fc.in_features, num_classes)
 
     for param in model.fc.parameters():
