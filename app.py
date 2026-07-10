@@ -8,7 +8,11 @@ def main() -> None:
     model, class_names = load_model()
 
     while True:
-        image_path = input("\nEnter the path to a leaf image (or 'q' to quit): ").strip()
+        image_path = (
+            input("\nEnter the path to a leaf image (or 'q' to quit): ")
+        .strip()
+        .strip('"')
+        )
 
         if image_path.lower() == "q":
             break
@@ -30,3 +34,4 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+    
