@@ -260,13 +260,14 @@ Upload a leaf image using the Swagger UI to receive a prediction.
 
 ### Command-Line Prediction
 
-<img width="1260" height="530" alt="Prediction" src="https://github.com/user-attachments/assets/4dc86478-53f4-4066-b735-1b699f6283a1" />
+<img width="1243" height="164" alt="command line project 3 screen shot" src="https://github.com/user-attachments/assets/bd9a733d-b397-4920-b841-0ca75ec088cc" />
+
 
 ---
 
 ### FastAPI Swagger UI
 
-*(Insert your Swagger screenshot here.)*
+<img width="1260" height="530" alt="Prediction" src="https://github.com/user-attachments/assets/4dc86478-53f4-4066-b735-1b699f6283a1" />
 
 ---
 
