@@ -1,45 +1,35 @@
 # Plant Disease Detection AI
 
-Plant Disease Detection AI is a Computer Vision and Deep Learning project built with Python, PyTorch, Torchvision, and FastAPI. The system automatically identifies plant diseases from leaf images using a transfer learning approach based on the ResNet18 convolutional neural network. It performs image preprocessing, data augmentation, model training, evaluation, and real-time disease prediction through both a command-line application and a FastAPI REST API.
+Plant Disease Detection AI is a Computer Vision and Deep Learning project built with Python, PyTorch, Torchvision, and FastAPI. The system automatically identifies plant diseases from leaf images using transfer learning with a pretrained ResNet18 convolutional neural network. It includes dataset exploration, image preprocessing, data augmentation, model training, evaluation, single-image prediction, a command-line application, and a FastAPI REST API for real-time inference.
 
 ---
 
 ## Features
 
 - Classifies plant leaf diseases from images
-- Uses Transfer Learning with ResNet18
+- Uses transfer learning with a pretrained ResNet18 model
 - Performs image preprocessing and normalization
 - Applies data augmentation to improve model generalization
 - Trains and evaluates a deep learning model
-- Saves the best-performing model automatically
+- Automatically saves the best-performing model checkpoint
 - Predicts diseases from individual leaf images
-- Command-line interface for local predictions
+- Command-line application for local predictions
 - FastAPI REST API for real-time image classification
 - Interactive Swagger UI for API testing
-- Modular project structure for future deployment
+- Modular architecture with separate training, evaluation, prediction, and deployment components
 
 ---
 
 ## Project Structure
 
-```
+```text
 Plant-Disease-Detection-AI/
-│
-├── data/
-│   └── PlantVillage/
-│       ├── train/
-│       └── val/
-│
-├── images/
-│   └── confusion_matrix.png
-│
-├── models/
 │
 ├── notebooks/
 │   └── data_exploration.py
 │
-├── app.py
 ├── api.py
+├── app.py
 ├── dataset.py
 ├── evaluate.py
 ├── model.py
@@ -48,6 +38,15 @@ Plant-Disease-Detection-AI/
 ├── requirements.txt
 ├── README.md
 └── .gitignore
+
+Generated locally:
+
+├── data/
+│   └── PlantVillage/
+├── models/
+│   └── best_model.pth
+└── images/
+    └── confusion_matrix.png
 ```
 
 ---
@@ -57,6 +56,8 @@ Plant-Disease-Detection-AI/
 - Python
 - PyTorch
 - Torchvision
+- ResNet18
+- Transfer Learning
 - NumPy
 - Pandas
 - Matplotlib
@@ -64,8 +65,6 @@ Plant-Disease-Detection-AI/
 - Scikit-Learn
 - FastAPI
 - Uvicorn
-- Transfer Learning
-- ResNet18
 - Git
 - GitHub
 
@@ -75,7 +74,7 @@ Plant-Disease-Detection-AI/
 
 This project uses the **PlantVillage Dataset**, which contains thousands of labeled images of healthy and diseased plant leaves across multiple crop species.
 
-**Dataset Source:**
+**Dataset Source**
 
 https://www.kaggle.com/datasets/mohitsingh1804/plantvillage
 
@@ -86,11 +85,20 @@ Dataset includes:
 - Healthy and diseased leaves
 - Predefined training and validation sets
 
+After downloading the dataset, organize it as:
+
+```text
+data/
+└── PlantVillage/
+    ├── train/
+    └── val/
+```
+
 ---
 
 ## Deep Learning Pipeline
 
-```
+```text
 Plant Leaf Image
         │
         ▼
@@ -112,7 +120,7 @@ Model Training
 Model Evaluation
         │
         ▼
-Best Model Selection
+Best Model Checkpoint
         │
         ▼
 Prediction
@@ -143,10 +151,16 @@ python -m venv venv
 
 Activate the virtual environment
 
-Windows
+**Windows (PowerShell)**
 
-```bash
-venv\Scripts\activate
+```powershell
+.\venv\Scripts\Activate.ps1
+```
+
+**Windows (Command Prompt)**
+
+```cmd
+venv\Scripts\activate.bat
 ```
 
 Install dependencies
@@ -157,21 +171,59 @@ pip install -r requirements.txt
 
 ---
 
-## Usage
+## Model Checkpoint
 
-Train the model
+The trained model checkpoint (`best_model.pth`) is not included in this repository.
+
+To generate it locally, download the PlantVillage dataset and run:
 
 ```bash
 python train.py
 ```
 
-Predict using the command-line application
+The training script automatically saves the best-performing model to:
+
+```text
+models/best_model.pth
+```
+
+The evaluation script, prediction pipeline, command-line application, and FastAPI API all use this checkpoint.
+
+---
+
+## Usage
+
+### Train the model
+
+```bash
+python train.py
+```
+
+The training script automatically saves the checkpoint with the highest validation accuracy and supports early stopping.
+
+### Evaluate the model
+
+```bash
+python evaluate.py
+```
+
+The evaluation script reports:
+
+- Accuracy
+- Precision
+- Recall
+- F1-score
+- Classification Report
+
+and generates a confusion matrix.
+
+### Command-line prediction
 
 ```bash
 python app.py
 ```
 
-Enter the path to a plant leaf image when prompted.
+Enter the path to a leaf image when prompted.
 
 Example:
 
@@ -186,6 +238,22 @@ Predicted disease: Corn_(maize)___healthy
 Confidence: 99.97%
 ```
 
+### FastAPI
+
+Run:
+
+```bash
+python -m uvicorn api:app --reload
+```
+
+Open:
+
+```text
+http://127.0.0.1:8000/docs
+```
+
+Upload a leaf image using the Swagger UI to receive a prediction.
+
 ---
 
 ## Example Output
@@ -194,6 +262,11 @@ Confidence: 99.97%
 
 <img width="1260" height="530" alt="Prediction" src="https://github.com/user-attachments/assets/4dc86478-53f4-4066-b735-1b699f6283a1" />
 
+---
+
+### FastAPI Swagger UI
+
+*(Insert your Swagger screenshot here.)*
 
 ---
 
@@ -201,39 +274,9 @@ Confidence: 99.97%
 
 <img width="1000" height="1000" alt="confusion_matrix" src="https://github.com/user-attachments/assets/7fead5d1-0928-4642-892e-5a0eb2cb8b79" />
 
-
 ---
 
-## Model Evaluation
-
-The model is evaluated using:
-
-- Accuracy
-- Precision
-- Recall
-- F1-Score
-- Classification Report
-- Confusion Matrix
-
-The best-performing model is automatically saved for future predictions.
-
----
-
-## FastAPI REST API
-
-Run the API server:
-
-```bash
-uvicorn api:app --reload
-```
-
-Once the server is running, open:
-
-```text
-http://127.0.0.1:8000/docs
-```
-
-Swagger UI allows image uploads for real-time disease prediction.
+## API Response
 
 Example response:
 
@@ -251,13 +294,12 @@ Example response:
 - Computer Vision
 - Deep Learning
 - Transfer Learning
+- PyTorch
 - Convolutional Neural Networks (CNNs)
-- ResNet18
 - Image Preprocessing
 - Data Augmentation
 - Model Training
 - Model Evaluation
-- PyTorch
 - FastAPI
 - REST API Development
 - Git & GitHub
@@ -266,11 +308,11 @@ Example response:
 
 ## Future Improvements
 
-- Web interface using Streamlit
-- Mobile application support
-- Grad-CAM visualization for model explainability
-- Docker deployment
-- Cloud deployment (Render / Railway / Azure)
+- Streamlit web interface
+- Mobile application integration
+- Grad-CAM model explainability
+- Docker containerization
+- Cloud deployment (Azure, Render, Railway)
 - Support for additional plant species and diseases
 
 ---
@@ -279,5 +321,4 @@ Example response:
 
 **Aneeq Altaf**
 
-GitHub Profile:
-https://github.com/AneeqAltaf-2121
+GitHub: https://github.com/AneeqAltaf-2121
