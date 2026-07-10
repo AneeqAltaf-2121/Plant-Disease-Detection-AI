@@ -192,13 +192,15 @@ Confidence: 99.97%
 
 ### Command-Line Prediction
 
-*have to add prediction screen shot here*
+<img width="1260" height="530" alt="Prediction" src="https://github.com/user-attachments/assets/4dc86478-53f4-4066-b735-1b699f6283a1" />
+
 
 ---
 
 ### Confusion Matrix
 
-*still need to add image*
+<img width="1000" height="1000" alt="confusion_matrix" src="https://github.com/user-attachments/assets/7fead5d1-0928-4642-892e-5a0eb2cb8b79" />
+
 
 ---
 
